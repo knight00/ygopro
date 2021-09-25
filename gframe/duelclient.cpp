@@ -1356,8 +1356,18 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->dInfo.lp[mainGame->LocalPlayer(1)] = BufferIO::ReadInt32(pbuf);
 		mainGame->dInfo.start_lp[0] = mainGame->dInfo.lp[0];
 		mainGame->dInfo.start_lp[1] = mainGame->dInfo.lp[1];
-		myswprintf(mainGame->dInfo.strLP[0], L"%d", mainGame->dInfo.lp[0]);
-		myswprintf(mainGame->dInfo.strLP[1], L"%d", mainGame->dInfo.lp[1]);
+		///////////kdiy///////////
+		//myswprintf(mainGame->dInfo.strLP[0], L"%d", mainGame->dInfo.lp[0]);
+		//myswprintf(mainGame->dInfo.strLP[1], L"%d", mainGame->dInfo.lp[1]);
+		if(mainGame->dInfo.lp[0] >= 8888888)
+		    myswprintf(mainGame->dInfo.strLP[0], L"\u221E");
+		else
+            myswprintf(mainGame->dInfo.strLP[0], L"%d", mainGame->dInfo.lp[0]);
+		if(mainGame->dInfo.lp[1] >= 8888888)
+		    myswprintf(mainGame->dInfo.strLP[1], L"\u221E");
+		else
+		    myswprintf(mainGame->dInfo.strLP[1], L"%d", mainGame->dInfo.lp[1]);
+		///////////kdiy///////////
 		int deckc = BufferIO::ReadInt16(pbuf);
 		int extrac = BufferIO::ReadInt16(pbuf);
 		mainGame->dField.Initial(mainGame->LocalPlayer(0), deckc, extrac);
@@ -3323,8 +3333,17 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		int final = mainGame->dInfo.lp[player] - val;
 		if (final < 0)
 			final = 0;
+		///////////kdiy///////////
+		if(mainGame->dInfo.lp[player] >= 8888888)
+            final = 8888888;
+		///////////kdiy///////////			
 		if(mainGame->dInfo.isReplaySkiping) {
 			mainGame->dInfo.lp[player] = final;
+			///////////kdiy///////////
+			if(mainGame->dInfo.lp[player] >= 8888888)
+            myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+			else
+			///////////kdiy///////////
 			myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 			return true;
 		}
@@ -3336,6 +3355,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			myswprintf(event_string, dataManager.GetSysString(1614), val);
 		mainGame->lpccolor = 0xffff0000;
 		mainGame->lpplayer = player;
+		///////////kdiy///////////
+		if(val >= 8888888)
+		myswprintf(textBuffer, L"-\u221E");
+		else
+		///////////kdiy///////////
 		myswprintf(textBuffer, L"-%d", val);
 		mainGame->lpcstring = textBuffer;
 		mainGame->WaitFrameSignal(30);
@@ -3344,6 +3368,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->lpcstring = 0;
 		mainGame->dInfo.lp[player] = final;
 		mainGame->gMutex.lock();
+		///////////kdiy///////////
+		if(mainGame->dInfo.lp[player] >= 8888888)
+		myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+		else
+		///////////kdiy///////////		
 		myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 		mainGame->gMutex.unlock();
 		return true;
@@ -3351,9 +3380,20 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 	case MSG_RECOVER: {
 		int player = mainGame->LocalPlayer(BufferIO::ReadInt8(pbuf));
 		int val = BufferIO::ReadInt32(pbuf);
-		int final = mainGame->dInfo.lp[player] + val;
+		///////////kdiy///////////
+		//int final = mainGame->dInfo.lp[player] + val;
+		int final2 = mainGame->dInfo.lp[player] + val;
+		if(mainGame->dInfo.lp[player] >= 8888888 || val >= 8888888)
+            final2 = 8888888;
+        int final = final2;
+		///////////kdiy///////////		
 		if(mainGame->dInfo.isReplaySkiping) {
 			mainGame->dInfo.lp[player] = final;
+			///////////kdiy///////////
+			if(mainGame->dInfo.lp[player] >= 8888888)
+            myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+			else
+			///////////kdiy///////////
 			myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 			return true;
 		}
@@ -3365,6 +3405,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			myswprintf(event_string, dataManager.GetSysString(1616), val);
 		mainGame->lpccolor = 0xff00ff00;
 		mainGame->lpplayer = player;
+		///////////kdiy///////////
+		if(val >= 8888888)
+		myswprintf(textBuffer, L"+\u221E");
+		else
+		///////////kdiy///////////
 		myswprintf(textBuffer, L"+%d", val);
 		mainGame->lpcstring = textBuffer;
 		mainGame->WaitFrameSignal(30);
@@ -3373,6 +3418,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->lpcstring = 0;
 		mainGame->dInfo.lp[player] = final;
 		mainGame->gMutex.lock();
+		///////////kdiy///////////
+		if(mainGame->dInfo.lp[player] >= 8888888)
+		myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+		else
+		///////////kdiy///////////		
 		myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 		mainGame->gMutex.unlock();
 		return true;
@@ -3416,6 +3466,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		int val = BufferIO::ReadInt32(pbuf);
 		if(mainGame->dInfo.isReplaySkiping) {
 			mainGame->dInfo.lp[player] = val;
+			///////////kdiy///////////
+			if(mainGame->dInfo.lp[player] >= 8888888)
+			myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+			else
+			///////////kdiy///////////	
 			myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 			return true;
 		}
@@ -3425,6 +3480,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->WaitFrameSignal(11);
 		mainGame->dInfo.lp[player] = val;
 		mainGame->gMutex.lock();
+		///////////kdiy///////////
+		if(mainGame->dInfo.lp[player] >= 8888888)
+		myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+		else
+		///////////kdiy///////////	
 		myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 		mainGame->gMutex.unlock();
 		return true;
@@ -3510,6 +3570,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			final = 0;
 		if(mainGame->dInfo.isReplaySkiping) {
 			mainGame->dInfo.lp[player] = final;
+			///////////kdiy///////////
+			if(mainGame->dInfo.lp[player] >= 8888888)
+			myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+			else
+			///////////kdiy///////////	
 			myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 			return true;
 		}
@@ -3517,6 +3582,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->lpd = (mainGame->dInfo.lp[player] - final) / 10;
 		mainGame->lpccolor = 0xff0000ff;
 		mainGame->lpplayer = player;
+		///////////kdiy///////////
+		if(cost >= 8888888)
+		myswprintf(textBuffer, L"-\u221E");
+		else
+		///////////kdiy///////////			
 		myswprintf(textBuffer, L"-%d", cost);
 		mainGame->lpcstring = textBuffer;
 		mainGame->WaitFrameSignal(30);
@@ -3525,6 +3595,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		mainGame->lpcstring = 0;
 		mainGame->dInfo.lp[player] = final;
 		mainGame->gMutex.lock();
+		///////////kdiy///////////
+		if(mainGame->dInfo.lp[player] >= 8888888)
+		myswprintf(mainGame->dInfo.strLP[player], L"\u221E");
+		else
+		///////////kdiy///////////	
 		myswprintf(mainGame->dInfo.strLP[player], L"%d", mainGame->dInfo.lp[player]);
 		mainGame->gMutex.unlock();
 		return true;
@@ -3659,20 +3734,40 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		ClientCard* pcard = mainGame->dField.GetCard(ca, la, sa);
 		if(aatk != pcard->attack) {
 			pcard->attack = aatk;
+			//////kdiy///////////
+			if(aatk >= 8888888)
+			myswprintf(pcard->atkstring, L"\u221E");
+			else
+			//////kdiy///////////
 			myswprintf(pcard->atkstring, L"%d", aatk);
 		}
 		if(adef != pcard->defense) {
 			pcard->defense = adef;
+			//////kdiy///////////
+			if(adef >= 8888888)
+			myswprintf(pcard->defstring, L"\u221E");
+			else
+			//////kdiy///////////
 			myswprintf(pcard->defstring, L"%d", adef);
 		}
 		if(ld) {
 			pcard = mainGame->dField.GetCard(cd, ld, sd);
 			if(datk != pcard->attack) {
 				pcard->attack = datk;
+				//////kdiy///////////
+				if(datk >= 8888888)
+				myswprintf(pcard->atkstring, L"\u221E");
+				else
+				//////kdiy///////////
 				myswprintf(pcard->atkstring, L"%d", datk);
 			}
 			if(ddef != pcard->defense) {
 				pcard->defense = ddef;
+				/////kdiy///////////
+				if(ddef >= 8888888)
+				myswprintf(pcard->atkstring, L"\u221E");
+				else
+				//////kdiy///////////
 				myswprintf(pcard->defstring, L"%d", ddef);
 			}
 		}
@@ -4062,6 +4157,11 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		for(int i = 0; i < 2; ++i) {
 			int p = mainGame->LocalPlayer(i);
 			mainGame->dInfo.lp[p] = BufferIO::ReadInt32(pbuf);
+			///////////kdiy///////////
+			if(mainGame->dInfo.lp[p] >= 8888888)
+			myswprintf(mainGame->dInfo.strLP[p], L"\u221E");
+			else
+			///////////kdiy///////////		
 			myswprintf(mainGame->dInfo.strLP[p], L"%d", mainGame->dInfo.lp[p]);
 			for(int seq = 0; seq < 7; ++seq) {
 				val = BufferIO::ReadInt8(pbuf);
