@@ -48,8 +48,18 @@ int SingleMode::SinglePlayThread() {
 	mainGame->dInfo.lp[1] = start_lp;
 	mainGame->dInfo.start_lp[0] = start_lp;
 	mainGame->dInfo.start_lp[1] = start_lp;
-	myswprintf(mainGame->dInfo.strLP[0], L"%d", mainGame->dInfo.lp[0]);
-	myswprintf(mainGame->dInfo.strLP[1], L"%d", mainGame->dInfo.lp[1]);
+	///////////kdiy///////////
+	//myswprintf(mainGame->dInfo.strLP[0], L"%d", mainGame->dInfo.lp[0]);
+	//myswprintf(mainGame->dInfo.strLP[1], L"%d", mainGame->dInfo.lp[1]);
+	if(mainGame->dInfo.lp[0] >= 8888888)
+		myswprintf(mainGame->dInfo.strLP[0], L"\u221E");
+	else
+		myswprintf(mainGame->dInfo.strLP[0], L"%d", mainGame->dInfo.lp[0]);
+	if(mainGame->dInfo.lp[1] >= 8888888)
+		myswprintf(mainGame->dInfo.strLP[1], L"\u221E");
+	else
+		myswprintf(mainGame->dInfo.strLP[1], L"%d", mainGame->dInfo.lp[1]);
+	///////////kdiy///////////
 	BufferIO::CopyWStr(mainGame->ebNickName->getText(), mainGame->dInfo.hostname, 20);
 	mainGame->dInfo.clientname[0] = 0;
 	mainGame->dInfo.player_type = 0;

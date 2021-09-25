@@ -194,7 +194,7 @@ bool Game::Initialize() {
 	lpcFont = irr::gui::CGUITTFont::createTTFont(env, gameConf.numfont, 48);
 	guiFont = irr::gui::CGUITTFont::createTTFont(env, gameConf.textfont, gameConf.textfontsize);
 	smgr = device->getSceneManager();
-	device->setWindowCaption(L"KoishiPro");
+	device->setWindowCaption(L"YGOPro");
 	device->setResizable(true);
 	if(gameConf.window_maximized)
 		device->maximizeWindow();
@@ -208,7 +208,7 @@ bool Game::Initialize() {
 	SetWindowsIcon();
 	//main menu
 	wchar_t strbuf[256];
-	myswprintf(strbuf, L"KoishiPro %X.0%X.%X Himehina", PRO_VERSION >> 12, (PRO_VERSION >> 4) & 0xff, PRO_VERSION & 0xf);
+	myswprintf(strbuf, L"YGOPro %X.0%X.%X KCG", PRO_VERSION >> 12, (PRO_VERSION >> 4) & 0xff, PRO_VERSION & 0xf);
 	wMainMenu = env->addWindow(rect<s32>(370, 200, 650, 415), false, strbuf);
 	wMainMenu->getCloseButton()->setVisible(false);
 	btnLanMode = env->addButton(rect<s32>(10, 30, 270, 60), wMainMenu, BUTTON_LAN_MODE, dataManager.GetSysString(1200));
@@ -1087,7 +1087,7 @@ void Game::MainLoop() {
 		if(cur_time < fps * 17 - 20)
 			std::this_thread::sleep_for(std::chrono::milliseconds(20));
 		if(cur_time >= 1000) {
-			myswprintf(cap, L"KoishiPro FPS: %d", fps);
+			myswprintf(cap, L"YGOPro FPS: %d", fps);
 			device->setWindowCaption(cap);
 			fps = 0;
 			cur_time -= 1000;
@@ -1772,6 +1772,18 @@ void Game::ShowCardInfo(int code, bool resize) {
 			wchar_t adBuffer[16];
 			if(cd.attack < 0 && cd.defense < 0)
 				myswprintf(adBuffer, L"?/?");
+			///////////kdiy//////////
+			else if(cd.attack >= 8888888 && cd.defense >= 8888888)
+				myswprintf(adBuffer, L"\u221E/\u221E");	
+			else if(cd.attack >= 8888888 && cd.defense >= 0)
+				myswprintf(adBuffer, L"\u221E/%d", cd.defense);
+			else if(cd.defense >= 8888888 && cd.attack >= 0)
+				myswprintf(adBuffer, L"%d/\u221E", cd.attack);
+			else if (cd.attack < 0 && cd.defense >= 8888888)
+				myswprintf(adBuffer, L"?/\u221E", cd.defense);
+			else if (cd.defense < 0 && cd.attack >= 8888888)
+				myswprintf(adBuffer, L"\u221E/?", cd.attack);
+			///////////kdiy//////////		
 			else if(cd.attack < 0)
 				myswprintf(adBuffer, L"?/%d", cd.defense);
 			else if(cd.defense < 0)
@@ -1784,6 +1796,10 @@ void Game::ShowCardInfo(int code, bool resize) {
 			wchar_t adBuffer[16];
 			if(cd.attack < 0)
 				myswprintf(adBuffer, L"?/-   ");
+			///////////kdiy//////////
+			else if(cd.attack >= 8888888)
+				myswprintf(adBuffer, L"\u221E/-   ");		
+			///////////kdiy//////////
 			else
 				myswprintf(adBuffer, L"%d/-   ", cd.attack);
 			wcscat(formatBuffer, adBuffer);

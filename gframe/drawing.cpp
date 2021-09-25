@@ -569,6 +569,10 @@ void Game::DrawMisc() {
 	if(lpframe) {
 		dInfo.lp[lpplayer] -= lpd;
 		myswprintf(dInfo.strLP[lpplayer], L"%d", dInfo.lp[lpplayer]);
+		///////////kdiy///////////
+		if(dInfo.lp[lpplayer] >= 8888888)
+			myswprintf(dInfo.strLP[lpplayer], L"\u221E");
+		///////////kdiy///////////	
 		lpccolor -= 0x19000000;
 		lpframe--;
 	}
@@ -1345,6 +1349,18 @@ void Game::DrawDeckBd() {
 				DrawShadowText(textFont, textBuffer, Resize(860, 187 + i * 66, 955, 207 + i * 66), Resize(1, 1, 0, 0));
 				if(ptr->second.attack < 0 && ptr->second.defense < 0)
 					myswprintf(textBuffer, L"?/?");
+				///////kdiy////////////
+				else if(ptr->second.attack >= 8888888 && ptr->second.defense >= 8888888)
+					myswprintf(textBuffer, L"\u221E/\u221E");
+				else if(ptr->second.attack >= 8888888 && ptr->second.defense >= 0)
+				    myswprintf(textBuffer, L"\u221E/%d", ptr->second.defense);
+				else if(ptr->second.attack >= 0 && ptr->second.defense >= 8888888)
+					myswprintf(textBuffer, L"%d/\u221E", ptr->second.attack);
+				else if(ptr->second.attack >= 8888888 && ptr->second.defense < 0)
+				    myswprintf(textBuffer, L"\u221E/?");
+				else if(ptr->second.defense >= 8888888 && ptr->second.attack < 0)
+				    myswprintf(textBuffer, L"?/\u221E");
+				///////kdiy////////////	
 				else if(ptr->second.attack < 0)
 					myswprintf(textBuffer, L"?/%d", ptr->second.defense);
 				else if(ptr->second.defense < 0)
@@ -1355,6 +1371,10 @@ void Game::DrawDeckBd() {
 				DrawShadowText(textFont, textBuffer, Resize(860, 187 + i * 66, 955, 207 + i * 66), Resize(1, 1, 0, 0));
 				if(ptr->second.attack < 0)
 					myswprintf(textBuffer, L"?/-");
+				///////kdiy////////////
+				else if(ptr->second.attack >= 8888888)
+					myswprintf(textBuffer, L"\u221E/-");
+				///////kdiy////////////	
 				else myswprintf(textBuffer, L"%d/-", ptr->second.attack);
 			}
 			if(ptr->second.type & TYPE_PENDULUM) {

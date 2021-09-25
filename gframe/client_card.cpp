@@ -105,6 +105,10 @@ void ClientCard::UpdateInfo(char* buf) {
 		if(attack < 0) {
 			atkstring[0] = '?';
 			atkstring[1] = 0;
+		//////////kdiy////////////////////
+		} else if (attack >= 8888888) {
+			myswprintf(atkstring, L"\u221E");
+		//////////kdiy////////////////////	
 		} else
 			myswprintf(atkstring, L"%d", attack);
 	}
@@ -113,6 +117,10 @@ void ClientCard::UpdateInfo(char* buf) {
 		if(type & TYPE_LINK) {
 			defstring[0] = '-';
 			defstring[1] = 0;
+		//////////kdiy////////////////////
+		} else if (defense >= 8888888) {
+			myswprintf(defstring, L"\u221E");
+		//////////kdiy////////////////////	
 		} else if(defense < 0) {
 			defstring[0] = '?';
 			defstring[1] = 0;

@@ -68,7 +68,19 @@ bool DataManager::LoadDB(const wchar_t* wfile) {
 			cd.alias = sqlite3_column_int(pStmt, 2);
 			cd.setcode = sqlite3_column_int64(pStmt, 3);
 			cd.type = sqlite3_column_int(pStmt, 4);
+			/////////////kdiy///////
+			int attack = sqlite3_column_int(pStmt, 5);
+			if (attack >= 999999)
+				cd.attack = 8888888;
+			else
+			/////////////kdiy///////
 			cd.attack = sqlite3_column_int(pStmt, 5);
+			/////////////kdiy///////
+			int defense = sqlite3_column_int(pStmt, 6);
+			if (defense >= 999999)
+				cd.defense = 8888888;
+			else
+			/////////////kdiy///////
 			cd.defense = sqlite3_column_int(pStmt, 6);
 			if(cd.type & TYPE_LINK) {
 				cd.link_marker = cd.defense;
