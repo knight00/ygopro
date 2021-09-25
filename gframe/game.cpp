@@ -1756,6 +1756,10 @@ void Game::ShowCardInfo(int code, bool resize) {
 			wchar_t adBuffer[16];
 			if(cd.attack < 0)
 				myswprintf(adBuffer, L"?/-   ");
+			///////////kdiy//////////
+			else if(cd.attack >= 8888888)
+				myswprintf(adBuffer, L"\u221E/-   ");		
+			///////////kdiy//////////	
 			else
 				myswprintf(adBuffer, L"%d/-   ", cd.attack);
 			wcscat(formatBuffer, adBuffer);
